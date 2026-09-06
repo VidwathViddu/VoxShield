@@ -1,2 +1,7 @@
 node_modules/
 dist/
+pretrained_models/
+*.wav
+__pycache__/
+.venv/
+speaker_verification/temp/
