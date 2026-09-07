@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import shutil
 
-from risk_engine import calculate_risk
+from backend.risk_engine import calculate_risk
 from speaker_verification.service import SpeakerVerifier
 
 app = FastAPI(title="VoxShield API")

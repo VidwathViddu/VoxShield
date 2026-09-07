@@ -429,16 +429,89 @@ function App() {
               </div>
             ) : (
               <div style={{padding:'10px 0'}}>
-                <h3>Analysis Result</h3>
-                <div style={{marginTop:'18px'}}>
-                  <p><b>Authenticity Score:</b> {result.authenticity_score}%</p>
-                  <p><b>AI / Spoof Probability:</b> {result.spoof_probability * 100}% <small>(temporary placeholder)</small></p>
-                  <p><b>Speaker Similarity:</b> {(result.speaker_similarity * 100).toFixed(2)}%</p>
-                  <p><b>Speaker Match:</b> {result.speaker_match ? 'YES' : 'NO'}</p>
-                  <p><b>Risk Level:</b> {result.risk_level}</p>
-                  <p><b>Decision:</b> {result.decision}</p>
+              <h3>Security Assessment</h3>
+
+              <div className={`security-assessment ${result.risk_level?.toLowerCase()}`}>
+                <div className="assessment-title">
+                  {result.risk_level === 'LOW' ? (
+                    <CheckCircle2 size={25} />
+                  ) : (
+                    <AlertTriangle size={25} />
+                  )}
+
+                  <div>
+                    <h3>
+                      {result.risk_level === 'LOW'
+                        ? 'Voice Appears Authentic'
+                        : result.risk_level === 'MEDIUM'
+                          ? 'Additional Verification Required'
+                          : 'Potential Voice Threat Detected'}
+                    </h3>
+
+                    <p>
+                      {result.risk_level === 'LOW'
+                        ? 'Interaction can proceed normally.'
+                        : result.risk_level === 'MEDIUM'
+                          ? 'Speaker identity could not be confidently verified.'
+                          : 'Interaction should be blocked or verified manually.'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="assessment-details">
+                  <p>
+                    <b>Authenticity Score:</b> {result.authenticity_score}%
+                  </p>
+
+                  <p>
+                    <b>AI / Spoof Probability:</b>{' '}
+                    {(result.spoof_probability * 100).toFixed(2)}%
+                    <small> (temporary placeholder)</small>
+                  </p>
+
+                  <p>
+                    <b>Speaker Similarity:</b>{' '}
+                    {(result.speaker_similarity * 100).toFixed(2)}%
+                  </p>
+
+                  <p>
+                    <b>Speaker Match:</b>{' '}
+                    {result.speaker_match ? 'YES' : 'NO'}
+                  </p>
+                </div>
+
+                <div className="assessment-divider"></div>
+
+                <div className="assessment-risk">
+                  <p>
+                    <b>Risk Level:</b> {result.risk_level}
+                  </p>
+
+                  <p>
+                    <b>Decision:</b> {result.decision}
+                  </p>
+                </div>
+
+                <div className="interaction-status">
+                  {result.risk_level === 'LOW' ? (
+                    <>
+                      <CheckCircle2 size={19} />
+                      <b>Interaction Allowed</b>
+                    </>
+                  ) : result.risk_level === 'MEDIUM' ? (
+                    <>
+                      <AlertTriangle size={19} />
+                      <b>Additional Verification Required</b>
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle size={19} />
+                      <b>Interaction Blocked</b>
+                    </>
+                  )}
                 </div>
               </div>
+            </div>
             )}
           </div>
         </section>

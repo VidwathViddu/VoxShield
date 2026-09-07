@@ -3,5 +3,6 @@ dist/
 backend/venv/
 backend/__pycache__/
 *.pyc
-
 backend/data/
+
+pretrained_models/

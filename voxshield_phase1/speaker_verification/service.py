@@ -3,6 +3,7 @@
 This module verifies *speaker identity*.  It does not determine whether an
 audio recording is human or synthetically generated.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import Any
 import torch
 import torchaudio
 import soundfile as sf
+from speechbrain.utils.fetching import LocalStrategy
 from speechbrain.inference.speaker import SpeakerRecognition
 
 MODEL_ID = "speechbrain/spkrec-ecapa-voxceleb"
@@ -28,7 +30,7 @@ class SpeakerVerifier:
     def __init__(
         self,
         threshold: float = DEFAULT_THRESHOLD,
-        model_dir: str | Path | None = None,
+        model_dir: str | Path = "pretrained_models/spkrec-ecapa-voxceleb",
         device: str | None = None,
     ) -> None:
         if not -1.0 <= threshold <= 1.0:
@@ -37,7 +39,8 @@ class SpeakerVerifier:
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.model = SpeakerRecognition.from_hparams(
             source=MODEL_ID,
-            savedir=None,
+            savedir="pretrained_models/spkrec-ecapa-voxceleb",
+            local_strategy=LocalStrategy.COPY,
             run_opts={"device": self.device},
         )
 

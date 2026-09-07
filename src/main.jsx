@@ -435,6 +435,14 @@ function App() {
                   <p><b>AI / Spoof Probability:</b> {result.spoof_probability * 100}% <small>(temporary placeholder)</small></p>
                   <p><b>Speaker Similarity:</b> {(result.speaker_similarity * 100).toFixed(2)}%</p>
                   <p><b>Speaker Match:</b> {result.speaker_match ? 'YES' : 'NO'}</p>
+                  {result.audio_features && (
+                    <div style={{marginTop:'16px', padding:'12px 14px', borderRadius:'10px', background:'#f7faf9'}}>
+                      <p style={{margin:'0 0 6px'}}><b>Audio Processing:</b></p>
+                      <p style={{margin:'4px 0', fontSize:'14px'}}>Mono • {result.audio_features.sample_rate / 1000} kHz • {result.audio_features.duration_seconds}s</p>
+                      <p style={{margin:'4px 0', fontSize:'14px'}}>MFCC: {result.audio_features.mfcc_dimensions?.[1] || 40} coefficients • Log-Mel: {result.audio_features.mel_dimensions?.[1] || 64} bands</p>
+                      <p style={{margin:'4px 0', fontSize:'13px', opacity:.7}}>ECAPA-TDNN speaker embedding extracted separately</p>
+                    </div>
+                  )}
                   <p><b>Risk Level:</b> {result.risk_level}</p>
                   <p><b>Decision:</b> {result.decision}</p>
                 </div>
