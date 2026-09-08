@@ -1,0 +1,2 @@
+[submodule "voxshield_phase1/deepfake_detector/aasist"]
+	url = https://github.com/clovaai/aasist.git
