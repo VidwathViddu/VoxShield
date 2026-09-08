@@ -1,27 +1,31 @@
+SPOOF_THRESHOLD = 0.50
+SPEAKER_THRESHOLD = 0.65
+
+
 def calculate_risk(spoof_probability, speaker_similarity):
-    """
-    Calculate the impersonation risk using:
-    - spoof_probability: probability that the voice is AI-generated
-    - speaker_similarity: similarity to the claimed/reference speaker
-    """
+    spoofed = spoof_probability >= SPOOF_THRESHOLD
+    matched = speaker_similarity >= SPEAKER_THRESHOLD
 
-    if spoof_probability >= 0.75 and speaker_similarity < 0.50:
-        risk_level = "HIGH"
-        decision = "POSSIBLE_IMPERSONATION"
+    if not spoofed and matched:
+        return {
+            "risk_level": "LOW",
+            "decision": "AUTHENTIC_VOICE"
+        }
 
-    elif spoof_probability >= 0.75:
-        risk_level = "HIGH"
-        decision = "POSSIBLE_AI_GENERATED_VOICE"
+    elif spoofed and matched:
+        return {
+            "risk_level": "HIGH",
+            "decision": "POSSIBLE_VOICE_CLONING"
+        }
 
-    elif speaker_similarity < 0.50:
-        risk_level = "MEDIUM"
-        decision = "POSSIBLE_SPEAKER_MISMATCH"
+    elif spoofed and not matched:
+        return {
+            "risk_level": "HIGH",
+            "decision": "SPOOFED_VOICE_DETECTED"
+        }
 
     else:
-        risk_level = "LOW"
-        decision = "VOICE_APPEARS_AUTHENTIC"
-
-    return {
-        "risk_level": risk_level,
-        "decision": decision
-    }
+        return {
+            "risk_level": "MEDIUM",
+            "decision": "POSSIBLE_SPEAKER_MISMATCH"
+        }
